@@ -28,16 +28,40 @@ avg_age = df.Age.mean()
 zero_age_amount = sum(df.Age == 0)
 
 #Huomataan, että on paljon nollan ikäisiä matkustajia. Lasketaan ei-nollan ikäisten matkustajien keski-ikä, ja päivitetään nollan ikäisten matkustajien iäksi tämä laskettu keskiarvo
+df_babies  = df[df.Age == 0]
+df_nobabies = df[df.Age != 0]
 
+avg_above_zero = df_nobabies.Age.mean()
 
 #Tulosta yksikäsitteiset PClasses arvot. Output: ['1st' '2nd' '*' '3rd']
-
+print(df.apply(lambda col: col.unique()).PClass)
 
 #Etsi, kenen PClass on: *
-
+print(df.loc[df.PClass == '*'])
 
 #Laske selviytyneiden ja ei-selviytyneiden lukumäärä. Tulosta arvot myös prosentteina
+notSurvived = df.loc[df.Survived == 0]
+survived = df.loc[df.Survived == 1]
 
+notSurvivedCount = notSurvived.shape[0]
+survivedCount = survived.shape[0]
+print("not survived count ", notSurvivedCount)
+print("survived count ", survivedCount)
+
+
+notSurvivedPercentage = round(notSurvivedCount / persons_count * 100,1)
+survivedPercentage = round(survivedCount / persons_count * 100,1)
+
+print("percentage not survived", notSurvivedPercentage)
+print("percentage survived", survivedPercentage)
 
 #Laske selviytyminen ja ei-selviytyminen miesten ja naisten kohdalla 
 
+not_survived_m_count = sum(notSurvived.GenderCode == 0)
+survived_m_count = sum(survived.GenderCode == 0)
+print("male survivors", survived_m_count, "male not survived", not_survived_m_count)
+
+
+not_survived_f_count = sum(notSurvived.GenderCode==1)
+survived_f_count = sum(survived.GenderCode==1)
+print("female survivors", survived_f_count, "female not survived", not_survived_f_count)
